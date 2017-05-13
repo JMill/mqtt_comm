@@ -18,15 +18,25 @@ client.on('connect',function(){
 	client.subscribe('ae/turret');
 });
 
+
+var positionX;
+var positionY;
+
 client.on('message', function(topic, message){
 	// message is Buffer
-	console.log(message.toString())
-	client.end()
+	console.log(payload);
+	var payload = JSON.parse(message);
+	console.log(payload);
+	positionX = payload.position_x;
+	positionY = payload.position_y;
+
+	//console.log(message.toString())
+	//client.end()
 })
 
 
-var positionX = 0.4980; // 0.000 = LEFT
-var positionY = 0.0580; // 0.0000 = DOWN
+//var positionX = 0.4980; // 0.000 = LEFT
+//var positionY = 0.0580; // 0.0000 = DOWN
 
 
 servo.on('ready', function () {
@@ -34,16 +44,16 @@ servo.on('ready', function () {
 	//settings: 0.05, 0.12
 	servo.configure(servoX, 0.025, 0.123, function (){
 		setInterval(function () {
-			console.log('X:', positionX);
+			//console.log('X:', positionX);
 			servo.move(servoX, positionX);
-		}, 1000); //1000 milliseconds
+		}, 200); //in milliseconds
 	});
 
 	servo.configure(servoY, 0.026, 0.057, function (){
 		setInterval(function () {
-			console.log('Y:', positionY);
+			//console.log('Y:', positionY);
 			servo.move(servoY, positionY);
-		}, 1000); //1000 milliseconds
+		}, 200); //in milliseconds
 	});
 
 	
